@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>직업 성향 테스트</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.5;
+            background-color: #f8f9fa;
+            color: #333;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background-color: #e9ecef;
+            border-radius: 4px;
+            margin-bottom: 24px;
+        }
+
+        .progress {
+            height: 100%;
+            background-color: #4263eb;
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+
+        .card {
+            background-color: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+
+        .question-number {
+            font-size: 14px;
+            color: #6b7280;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .question-text {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 24px;
+            color: #111827;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .option-button {
+            width: 100%;
+            padding: 24px;
+            text-align: left;
+            background-color: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            font-size: 16px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.2s ease;
+        }
+
+        .option-button:hover {
+            border-color: #4263eb;
+            background-color: #f8f9ff;
+        }
+
+        .option-button.selected {
+            background-color: #4263eb;
+            border-color: #4263eb;
+            color: white;
+        }
+
+        .arrow-icon {
+            width: 20px;
+            height: 20px;
+            transition: transform 0.2s ease;
+        }
+
+        .option-button:hover .arrow-icon {
+            transform: translateX(4px);
+        }
+
+        .result {
+            text-align: left;
+        }
+
+        .result-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .result-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #111827;
+        }
+
+        .result-description {
+            font-size: 18px;
+            color: #4b5563;
+            margin-bottom: 24px;
+        }
+
+        .result-section {
+            margin-bottom: 24px;
+        }
+
+        .result-section h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #111827;
+        }
+
+        .result-section p {
+            color: #4b5563;
+            margin-bottom: 8px;
+        }
+
+        .restart-button {
+            width: 100%;
+            padding: 16px;
+            font-size: 18px;
+            font-weight: 500;
+            color: white;
+            background-color: #4263eb;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .restart-button:hover {
+            background-color: #364fc7;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="progress-bar">
+            <div class="progress" id="progress"></div>
+        </div>
+        <div class="card" id="content"></div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                question: "업무 환경이 갑자기 바뀌었을 때, 어떻게 대응하시나요?",
+                options: [
+                    { text: "변화를 기회로 보고 새로운 전략을 세운다", type: "entrepreneur" },
+                    { text: "기존의 경험을 바탕으로 안정적으로 적응한다", type: "employee" },
+                    { text: "상황에 맞춰 유연하게 작업 방식을 조정한다", type: "freelancer" }
+                ]
+            },
+            {
+                question: "일할 때 가장 중요하게 생각하는 가치는 무엇인가요?",
+                options: [
+                    { text: "자율성과 창의적인 문제 해결", type: "freelancer" },
+                    { text: "성장과 혁신을 통한 가치 창출", type: "entrepreneur" },
+                    { text: "안정성과 전문성 개발", type: "employee" }
+                ]
+            },
+            {
+                question: "팀 프로젝트에서 선호하는 역할은 무엇인가요?",
+                options: [
+                    { text: "체계적으로 업무를 조율하고 협업하는 역할", type: "employee" },
+                    { text: "독립적으로 전문성을 발휘하는 역할", type: "freelancer" },
+                    { text: "비전을 제시하고 팀을 이끄는 역할", type: "entrepreneur" }
+                ]
+            },
+            {
+                question: "새로운 아이디어가 떠올랐을 때 주로 어떻게 행동하시나요?",
+                options: [
+                    { text: "즉시 실행에 옮기고 피드백을 받아가며 발전시킨다", type: "entrepreneur" },
+                    { text: "나만의 방식으로 차근차근 발전시켜 완성한다", type: "freelancer" },
+                    { text: "팀원들과 공유하고 체계적으로 검증한다", type: "employee" }
+                ]
+            },
+            {
+                question: "업무 성과에 대한 보상은 어떤 형태를 선호하시나요?",
+                options: [
+                    { text: "안정적인 급여와 복지 혜택", type: "employee" },
+                    { text: "도전과 성과에 따른 높은 수익", type: "entrepreneur" },
+                    { text: "프로젝트별 성과에 따른 유연한 보상", type: "freelancer" }
+                ]
+            },
+            {
+                question: "장기적인 경력 목표는 무엇인가요?",
+                options: [
+                    { text: "자신만의 비즈니스 브랜드 구축", type: "entrepreneur" },
+                    { text: "전문 분야에서의 포트폴리오 확장", type: "freelancer" },
+                    { text: "조직 내에서의 안정적인 성장", type: "employee" }
+                ]
+            },
+            {
+                question: "실패를 마주했을 때 어떻게 대처하시나요?",
+                options: [
+                    { text: "실패를 교훈 삼아 더 큰 도전을 준비한다", type: "entrepreneur" },
+                    { text: "체계적으로 원인을 분석하고 개선한다", type: "employee" },
+                    { text: "새로운 접근 방식을 시도해본다", type: "freelancer" }
+                ]
+            },
+            {
+                question: "일과 삶의 균형에 대해 어떻게 생각하시나요?",
+                options: [
+                    { text: "일과 삶을 유연하게 조절하며 살고 싶다", type: "freelancer" },
+                    { text: "명확한 구분으로 각각에 집중하고 싶다", type: "employee" },
+                    { text: "일을 통해 자아실현을 추구하고 싶다", type: "entrepreneur" }
+                ]
+            }
+        ];
+
+        let currentQuestion = 0;
+        let answers = [];
+
+        function updateProgress() {
+            const progress = document.getElementById('progress');
+            progress.style.width = `${(currentQuestion / questions.length) * 100}%`;
+        }
+
+        function showQuestion() {
+            const content = document.getElementById('content');
+            const question = questions[currentQuestion];
+
+            content.innerHTML = `
+                <div class="question-number">
+                    ${currentQuestion + 1}번째 질문
+                </div>
+                <div class="question-text">
+                    ${question.question}
+                </div>
+                <div class="options">
+                    ${question.options.map((option, index) => `
+                        <button class="option-button" onclick="selectAnswer('${option.type}')">
+                            <span>${option.text}</span>
+                            <svg class="arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M5 12h14M12 5l7 7-7 7"/>
+                            </svg>
+                        </button>
+                    `).join('')}
+                </div>
+            `;
+
+            updateProgress();
+        }
+
+        function calculateResult() {
+            const count = {
+                entrepreneur: answers.filter(type => type === "entrepreneur").length,
+                employee: answers.filter(type => type === "employee").length,
+                freelancer: answers.filter(type => type === "freelancer").length
+            };
+
+            const max = Math.max(count.entrepreneur, count.employee, count.freelancer);
+            
+            if (count.entrepreneur === max) {
+                return {
+                    type: "사업가",
+                    description: "당신은 혁신적이고 도전적인 사업가 성향을 가지고 있습니다.",
+                    details: [
+                        "• 새로운 가치를 창출하고 비즈니스를 성장시키는 것에 큰 열정이 있습니다.",
+                        "• 위험을 감수하더라도 큰 성과를 추구하는 도전정신이 강합니다.",
+                        "• 리더십을 발휘하여 팀을 이끌고 비전을 실현하는 것을 즐깁니다."
+                    ],
+                    recommendation: [
+                        "• 스타트업 창업이나 자신만의 비즈니스 시작을 고려해보세요.",
+                        "• 새로운 시장 기회를 발굴하고 비즈니스 모델을 구상해보세요.",
+                        "• 경영, 마케팅, 재무 관련 지식을 쌓아가는 것이 도움될 수 있습니다."
+                    ]
+                };
+            } else if (count.employee === max) {
+                return {
+                    type: "회사원",
+                    description: "당신은 전문성과 안정성을 중시하는 회사원 성향을 가지고 있습니다.",
+                    details: [
+                        "• 체계적인 환경에서 전문성을 키워나가는 것을 선호합니다.",
+                        "• 팀워크를 통한 협업과 조직적인 성과 달성을 중요시합니다.",
+                        "• 안정적인 성장과 경력 개발을 추구합니다."
+                    ],
+                    recommendation: [
+                        "• 대기업, 공공기관, 또는 성장하는 중소기업에서의 커리어를 고려해보세요.",
+                        "• 관심 분야의 전문 자격증이나 학위 취득을 통해 전문성을 강화하세요.",
+                        "• 조직 내 네트워킹과 리더십 역량을 개발하는 것이 중요합니다."
+                    ]
+                };
+            } else {
+                return {
+                    type: "프리랜서",
+                    description: "당신은 자율성과 창의성을 중시하는 프리랜서 성향을 가지고 있습니다.",
+                    details: [
+                        "• 독립적인 작업 환경에서 창의력을 발휘하는 것을 선호합니다.",
+                        "• 유연한 시간 관리와 작업 방식을 통해 최상의 결과를 추구합니다.",
+                        "• 다양한 프로젝트 경험을 통한 성장을 즐깁니다."
+                    ],
+                    recommendation: [
+                        "• 프리랜서 플랫폼을 통한 프로젝트 수주를 시작해보세요.",
+                        "• 포트폴리오를 구축하고 전문 분야의 네트워크를 확장하세요.",
+                        "• 시간 관리와 프로젝트 관리 능력을 개발하는 것이 중요합니다."
+                    ]
+                };
+            }
+        }
+
+        function selectAnswer(type) {
+            const buttons = document.querySelectorAll('.option-button');
+            buttons.forEach(button => button.classList.remove('selected'));
+            
+            const selectedButton = Array.from(buttons).find(button => 
+                button.textContent.includes(questions[currentQuestion].options.find(opt => opt.type === type).text));
+            selectedButton.classList.add('selected');
+
+            setTimeout(() => {
+                answers.push(type);
+                if (currentQuestion + 1 < questions.length) {
+                    currentQuestion++;
+                    showQuestion();
+                } else {
+                    showResult();
+                }
+            }, 300);
+        }
+
+        function showResult() {
+            const result = calculateResult();
+            const content = document.getElementById('content');
+
+            content.innerHTML = `
+                <div class="result">
+                    <div class="result-header">
+                        <svg class="w-8 h-8 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 11.08V12a10 10 0 11-5.93-9.14"></path>
+                            <path d="M22 4L12 14.01l-3-3"></path>
+                        </svg>
+                        <h2 class="result-title">
+                            당신은 <span style="color: #4263eb">${result.type}</span> 성향입니다
+                        </h2>
+                    </div>
+                    
+                    <p class="result-description">
+                        ${result.description}
+                    </p>
+
+                    <div class="result-section">
+                        <h3>성향 특징</h3>
+                        ${result.details.map(detail => `<p>${detail}</p>`).join('')}
+                    </div>
+
+                    <div class="result-section">
+                        <h3>추천 진로</h3>
+                        ${result.recommendation.map(rec => `<p>${rec}</p>`).join('')}
+                    </div>
+
+                    <button class="restart-button" onclick="restartTest()">
+                        테스트 다시하기
+                    </button>
+                </div>
+            `;
+
+            // 프로그레스 바를 100%로 설정
+            updateProgress();
+        }
+
+        function restartTest() {
+            currentQuestion = 0;
+            answers = [];
+            showQuestion();
+        }
+
+        // 테스트 시작
+        showQuestion();
+    </script>
+</body>
+</html>
