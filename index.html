@@ -24,34 +24,6 @@
             margin: 0 auto;
         }
 
-        .stats-container {
-            display: flex;
-            gap: 12px;
-            margin-bottom: 16px;
-        }
-
-        .stat-box {
-            flex: 1;
-            text-align: center;
-            padding: 12px;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-        }
-
-        .stat-label {
-            display: block;
-            color: #6b7280;
-            font-size: 14px;
-            margin-bottom: 4px;
-        }
-
-        .counter-number {
-            color: #4263eb;
-            font-weight: 600;
-            font-size: 20px;
-        }
-
         .progress-bar {
             width: 100%;
             height: 8px;
@@ -190,17 +162,6 @@
 </head>
 <body>
     <div class="container">
-        <div class="stats-container">
-            <div class="stat-box">
-                <span class="stat-label">오늘 방문자</span>
-                <span id="visitors" class="counter-number">0</span>명
-            </div>
-            <div class="stat-box">
-                <span class="stat-label">테스트 완료</span>
-                <span id="counter" class="counter-number">0</span>명
-            </div>
-        </div>
-
         <div class="progress-bar">
             <div class="progress" id="progress"></div>
         </div>
@@ -277,57 +238,6 @@
 
         let currentQuestion = 0;
         let answers = [];
-
-        function getTodayKey() {
-            const today = new Date();
-            return `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
-        }
-
-        function updateStats() {
-            const todayKey = getTodayKey();
-            const statsData = JSON.parse(localStorage.getItem('careerTestStats') || '{}');
-            
-            if (statsData.date !== todayKey) {
-                statsData.date = todayKey;
-                statsData.visitors = 1;
-                statsData.completed = 0;
-            }
-            
-            document.getElementById('visitors').textContent = statsData.visitors.toLocaleString();
-            document.getElementById('counter').textContent = (statsData.completed || 0).toLocaleString();
-        }
-
-        function incrementVisitors() {
-            const todayKey = getTodayKey();
-            const statsData = JSON.parse(localStorage.getItem('careerTestStats') || '{}');
-            
-            if (statsData.date !== todayKey) {
-                statsData.date = todayKey;
-                statsData.visitors = 1;
-                statsData.completed = 0;
-            } else {
-                statsData.visitors = (statsData.visitors || 0) + 1;
-            }
-            
-            localStorage.setItem('careerTestStats', JSON.stringify(statsData));
-            updateStats();
-        }
-
-        function incrementCompletions() {
-            const todayKey = getTodayKey();
-            const statsData = JSON.parse(localStorage.getItem('careerTestStats') || '{}');
-            
-            if (statsData.date !== todayKey) {
-                statsData.date = todayKey;
-                statsData.visitors = 1;
-                statsData.completed = 1;
-            } else {
-                statsData.completed = (statsData.completed || 0) + 1;
-            }
-            
-            localStorage.setItem('careerTestStats', JSON.stringify(statsData));
-            updateStats();
-        }
 
         function updateProgress() {
             const progress = document.getElementById('progress');
@@ -443,7 +353,7 @@
             content.innerHTML = `
                 <div class="result">
                     <div class="result-header">
-                        <svg class="w-8 h-8 text-primary" viewBox="0 0 24 24" fill="none" stroke="#4263eb" stroke-width="2">
+                        <svg class="w-8 h-8 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M22 11.08V12a10 10 0 11-5.93-9.14"></path>
                             <path d="M22 4L12 14.01l-3-3"></path>
                         </svg>
@@ -473,11 +383,7 @@
             `;
 
             // 프로그레스 바를 100%로 설정
-            currentQuestion = questions.length - 1;
             updateProgress();
-            
-            // 결과 화면에서 완료 카운터 증가
-            incrementCompletions();
         }
 
         function restartTest() {
@@ -487,9 +393,7 @@
         }
 
         // 테스트 시작
-        incrementVisitors(); // 방문자 수 증가
-        updateStats();      // 통계 업데이트
-        showQuestion();     // 첫 질문 표시
+        showQuestion();
     </script>
 </body>
 </html>
