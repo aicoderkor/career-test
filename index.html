@@ -3,22 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="나의 성향에 맞는 진로를 찾아보세요. 사업가, 회사원, 프리랜서 중 당신에게 맞는 길은 무엇일까요?">
-    <meta name="keywords" content="직업 성향 테스트, 진로 탐색, 적성 검사, 커리어 테스트">
-    <meta name="author" content="Career Path Test">
-    
-    <!-- Open Graph 태그 -->
-    <meta property="og:title" content="나의 진로 성향 테스트">
-    <meta property="og:description" content="나의 성향에 맞는 진로를 찾아보세요. 사업가, 회사원, 프리랜서 중 당신에게 맞는 길은 무엇일까요?">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://[your-github-username].github.io/[repository-name]">
-    <meta property="og:image" content="https://[your-github-username].github.io/[repository-name]/og-image.png">
-    
-    <title>나의 진로 성향 테스트</title>
-    
-    <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎯</text></svg>">
-    
+    <title>직업 성향 테스트</title>
     <style>
         * {
             margin: 0;
@@ -37,22 +22,6 @@
         .container {
             max-width: 600px;
             margin: 0 auto;
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: 24px;
-        }
-
-        .header h1 {
-            font-size: 24px;
-            color: #111827;
-            margin-bottom: 8px;
-        }
-
-        .header p {
-            color: #6b7280;
-            font-size: 16px;
         }
 
         .stats-container {
@@ -217,47 +186,10 @@
         .restart-button:hover {
             background-color: #364fc7;
         }
-
-        .footer {
-            text-align: center;
-            margin-top: 40px;
-            padding-top: 20px;
-            border-top: 1px solid #e5e7eb;
-            color: #6b7280;
-            font-size: 14px;
-        }
-
-        .footer a {
-            color: #4263eb;
-            text-decoration: none;
-        }
-
-        .footer a:hover {
-            text-decoration: underline;
-        }
-
-        @media (max-width: 640px) {
-            body {
-                padding: 16px;
-            }
-
-            .card {
-                padding: 16px;
-            }
-
-            .option-button {
-                padding: 16px;
-            }
-        }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="header">
-            <h1>나의 진로 성향 테스트</h1>
-            <p>8개의 질문으로 알아보는 나의 성향</p>
-        </div>
-
         <div class="stats-container">
             <div class="stat-box">
                 <span class="stat-label">오늘 방문자</span>
@@ -272,12 +204,7 @@
         <div class="progress-bar">
             <div class="progress" id="progress"></div>
         </div>
-
         <div class="card" id="content"></div>
-
-        <div class="footer">
-            <p>© 2024 진로 성향 테스트 | Made with ❤️ by <a href="https://github.com/[your-github-username]" target="_blank">Your Name</a></p>
-        </div>
     </div>
 
     <script>
@@ -298,34 +225,92 @@
                     { text: "안정성과 전문성 개발", type: "employee" }
                 ]
             },
-            // ... 나머지 질문들 ...
+            {
+                question: "팀 프로젝트에서 선호하는 역할은 무엇인가요?",
+                options: [
+                    { text: "체계적으로 업무를 조율하고 협업하는 역할", type: "employee" },
+                    { text: "독립적으로 전문성을 발휘하는 역할", type: "freelancer" },
+                    { text: "비전을 제시하고 팀을 이끄는 역할", type: "entrepreneur" }
+                ]
+            },
+            {
+                question: "새로운 아이디어가 떠올랐을 때 주로 어떻게 행동하시나요?",
+                options: [
+                    { text: "즉시 실행에 옮기고 피드백을 받아가며 발전시킨다", type: "entrepreneur" },
+                    { text: "나만의 방식으로 차근차근 발전시켜 완성한다", type: "freelancer" },
+                    { text: "팀원들과 공유하고 체계적으로 검증한다", type: "employee" }
+                ]
+            },
+            {
+                question: "업무 성과에 대한 보상은 어떤 형태를 선호하시나요?",
+                options: [
+                    { text: "안정적인 급여와 복지 혜택", type: "employee" },
+                    { text: "도전과 성과에 따른 높은 수익", type: "entrepreneur" },
+                    { text: "프로젝트별 성과에 따른 유연한 보상", type: "freelancer" }
+                ]
+            },
+            {
+                question: "장기적인 경력 목표는 무엇인가요?",
+                options: [
+                    { text: "자신만의 비즈니스 브랜드 구축", type: "entrepreneur" },
+                    { text: "전문 분야에서의 포트폴리오 확장", type: "freelancer" },
+                    { text: "조직 내에서의 안정적인 성장", type: "employee" }
+                ]
+            },
+            {
+                question: "실패를 마주했을 때 어떻게 대처하시나요?",
+                options: [
+                    { text: "실패를 교훈 삼아 더 큰 도전을 준비한다", type: "entrepreneur" },
+                    { text: "체계적으로 원인을 분석하고 개선한다", type: "employee" },
+                    { text: "새로운 접근 방식을 시도해본다", type: "freelancer" }
+                ]
+            },
+            {
+                question: "일과 삶의 균형에 대해 어떻게 생각하시나요?",
+                options: [
+                    { text: "일과 삶을 유연하게 조절하며 살고 싶다", type: "freelancer" },
+                    { text: "명확한 구분으로 각각에 집중하고 싶다", type: "employee" },
+                    { text: "일을 통해 자아실현을 추구하고 싶다", type: "entrepreneur" }
+                ]
+            }
         ];
 
         let currentQuestion = 0;
         let answers = [];
 
-        // 로컬 스토리지 관련 함수들
         function getTodayKey() {
             const today = new Date();
             return `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
         }
 
-        function updateCounters() {
+        function updateStats() {
             const todayKey = getTodayKey();
             const statsData = JSON.parse(localStorage.getItem('careerTestStats') || '{}');
             
             if (statsData.date !== todayKey) {
                 statsData.date = todayKey;
-                statsData.visitors = 1; // 첫 방문자로 카운트
+                statsData.visitors = 1;
                 statsData.completed = 0;
-            } else {
-                statsData.visitors = (statsData.visitors || 0) + 1; // 방문자 수 증가
             }
-            
-            localStorage.setItem('careerTestStats', JSON.stringify(statsData));
             
             document.getElementById('visitors').textContent = statsData.visitors.toLocaleString();
             document.getElementById('counter').textContent = (statsData.completed || 0).toLocaleString();
+        }
+
+        function incrementVisitors() {
+            const todayKey = getTodayKey();
+            const statsData = JSON.parse(localStorage.getItem('careerTestStats') || '{}');
+            
+            if (statsData.date !== todayKey) {
+                statsData.date = todayKey;
+                statsData.visitors = 1;
+                statsData.completed = 0;
+            } else {
+                statsData.visitors = (statsData.visitors || 0) + 1;
+            }
+            
+            localStorage.setItem('careerTestStats', JSON.stringify(statsData));
+            updateStats();
         }
 
         function incrementCompletions() {
@@ -341,10 +326,9 @@
             }
             
             localStorage.setItem('careerTestStats', JSON.stringify(statsData));
-            document.getElementById('counter').textContent = statsData.completed.toLocaleString();
+            updateStats();
         }
 
-        // UI 업데이트 함수들
         function updateProgress() {
             const progress = document.getElementById('progress');
             progress.style.width = `${(currentQuestion / questions.length) * 100}%`;
@@ -393,6 +377,21 @@
                         "• 새로운 가치를 창출하고 비즈니스를 성장시키는 것에 큰 열정이 있습니다.",
                         "• 위험을 감수하더라도 큰 성과를 추구하는 도전정신이 강합니다.",
                         "• 리더십을 발휘하여 팀을 이끌고 비전을 실현하는 것을 즐깁니다."
+                    ],
+                    recommendation: [
+                        "• 스타트업 창업이나 자신만의 비즈니스 시작을 고려해보세요.",
+                        "• 새로운 시장 기회를 발굴하고 비즈니스 모델을 구상해보세요.",
+                        "• 경영, 마케팅, 재무 관련 지식을 쌓아가는 것이 도움될 수 있습니다."
+                    ]
+                };
+            } else if (count.employee === max) {
+                return {
+                    type: "회사원",
+                    description: "당신은 전문성과 안정성을 중시하는 회사원 성향을 가지고 있습니다.",
+                    details: [
+                        "• 체계적인 환경에서 전문성을 키워나가는 것을 선호합니다.",
+                        "• 팀워크를 통한 협업과 조직적인 성과 달성을 중요시합니다.",
+                        "• 안정적인 성장과 경력 개발을 추구합니다."
                     ],
                     recommendation: [
                         "• 대기업, 공공기관, 또는 성장하는 중소기업에서의 커리어를 고려해보세요.",
@@ -487,31 +486,10 @@
             showQuestion();
         }
 
-        // 페이지 로드 시 카운터 업데이트 및 테스트 시작
-        updateCounters();
-        showQuestion();
-
-        // 공유하기 기능
-        if (navigator.share) {
-            const shareButton = document.createElement('button');
-            shareButton.innerText = '결과 공유하기';
-            shareButton.className = 'restart-button';
-            shareButton.style.marginTop = '12px';
-            shareButton.onclick = async () => {
-                try {
-                    await navigator.share({
-                        title: '나의 진로 성향 테스트 결과',
-                        text: '나의 성향에 맞는 진로를 찾아보세요!',
-                        url: window.location.href
-                    });
-                } catch (err) {
-                    console.log('Error sharing:', err);
-                }
-            };
-            document.querySelector('.footer').insertAdjacentElement('beforebegin', shareButton);
-        }
+        // 테스트 시작
+        incrementVisitors(); // 방문자 수 증가
+        updateStats();      // 통계 업데이트
+        showQuestion();     // 첫 질문 표시
     </script>
-
-    <!-- Google Analytics 또는 다른 분석 도구 추가 -->
 </body>
 </html>
